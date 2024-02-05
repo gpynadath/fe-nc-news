@@ -1,4 +1,5 @@
 import "../styles/articles.css";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
@@ -29,8 +30,8 @@ const Articles = () => {
       <ul className="article">
         {articles.map((article) => {
           return (
-            <li>
-              <Card sx={{ height:500,maxWidth: 400 }}>
+            <li key={article.article_id}>
+              <Card sx={{ height: 500, maxWidth: 400 }}>
                 <CardMedia
                   sx={{ height: 140 }}
                   image={article.article_img_url}
@@ -41,9 +42,6 @@ const Articles = () => {
                     {article.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    ID: {article.article_id}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
                     Author: {article.author}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -52,10 +50,10 @@ const Articles = () => {
                   <Typography variant="body2" color="text.secondary">
                     Comment Count: {article.comment_count}
                   </Typography>
+                  <Link to={`/articles/${article.article_id}`}>
+                    <button>Learn More</button>
+                  </Link>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions>
               </Card>
             </li>
           );

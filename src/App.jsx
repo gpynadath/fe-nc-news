@@ -5,6 +5,7 @@ import "./App.css";
 import Articles from "./components/Articles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import SingleArticle from "./components/SingleArticle";
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-        <Route path="/" />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:article_id" element={<SingleArticle />} />
         </Routes>
       </BrowserRouter>
     </>
