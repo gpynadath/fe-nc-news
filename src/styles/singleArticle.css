@@ -1,0 +1,10 @@
+.comments{
+    list-style: none;
+}
+.comment{
+    border: 1px solid grey;
+    margin: 2px;
+}
+#commentAuthor{
+    text-align: right;
+}
