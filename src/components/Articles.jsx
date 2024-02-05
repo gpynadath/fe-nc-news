@@ -8,23 +8,16 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { getArticles } from "../api/api";
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
 
-  const getArticles = async () => {
-    return await axios
-      .get("https://nc-news-1yod.onrender.com/api/articles")
-      .then(({ data }) => {
-        setArticles(data.article);
-      });
-  };
-
   useEffect(() => {
-    getArticles();
+    getArticles(setArticles);
   }, []);
 
-  console.log(articles);
+
   return (
     <div>
       <ul className="article">
