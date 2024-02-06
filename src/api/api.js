@@ -8,8 +8,7 @@ const getArticles = async (setArticles) => {
     });
 };
 
-const getSingleArticle = (article_id,setArticleInfo) => {
-
+const getSingleArticle = (article_id, setArticleInfo) => {
   return axios
     .get(`https://nc-news-1yod.onrender.com/api/articles/${article_id}`)
     .then(({ data }) => {
@@ -17,7 +16,7 @@ const getSingleArticle = (article_id,setArticleInfo) => {
     });
 };
 
-const getComments = (article_id,setComments) => {
+const getComments = (article_id, setComments) => {
   return axios
     .get(
       `https://nc-news-1yod.onrender.com/api/articles/${article_id}/comments`
@@ -27,4 +26,14 @@ const getComments = (article_id,setComments) => {
     });
 };
 
-export { getArticles, getSingleArticle, getComments };
+function patchArticleVotes(article_id, votes) {
+  return axios
+    .patch(`https://nc-news-1yod.onrender.com/api/articles/${article_id}`, {
+      inc_votes: votes,
+    })
+    .then(({ data }) => {
+      return data.article;
+    });
+}
+
+export { getArticles, getSingleArticle, getComments, patchArticleVotes };

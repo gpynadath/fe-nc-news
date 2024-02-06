@@ -1,25 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/singleArticle.css";
-import { getSingleArticle, getComments } from "../api/api";
+import { getSingleArticle, patchArticleVotes } from "../api/api";
 import Card from "@mui/material/Card";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import SingleArticleComments from "./SingleArticleComments";
 
 const SingleArticle = () => {
   const [articleInfo, setArticleInfo] = useState([]);
-  const [comments, setComments] = useState([]);
   const [viewComments, setViewComments] = useState(false);
+  const [votes, setVotes] = useState(10);
+  const [isError, setIsError] = useState(false);
   const { article_id } = useParams();
 
   useEffect(() => {
     getSingleArticle(article_id, setArticleInfo);
-    getComments(article_id, setComments);
   }, []);
+
+  useEffect(() => {
+    setVotes(articleInfo.votes);
+  }, [articleInfo]);
+
+  function modifyVote(vote) {
+    patchArticleVotes(article_id, vote)
+      .then((res) => {
+        setVotes((currentVote) => (currentVote += vote));
+      })
+      .catch((err) => {
+        setIsError(true);
+      });
+  }
 
   return (
     <div>
@@ -45,41 +61,31 @@ const SingleArticle = () => {
           <Typography variant="body2" color="text.secondary">
             Comment Count: {articleInfo.comment_count}
           </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Votes: {votes}
+          </Typography>
         </CardContent>
-        <TextField label="Add a comment" />
-        <Button>POST</Button>
-        <Button>
-          <ThumbUpIcon fontSize="large" />
+        <Button onClick={() => modifyVote(1)}>
+          <ArrowUpwardIcon fontSize="large" />
         </Button>
-        <button
+        <Button onClick={() => modifyVote(-1)}>
+          <ArrowDownwardIcon fontSize="large" />
+        </Button>
+        {isError && <h4>Unable to add your vote</h4>}
+        <br></br>
+        <TextField label="Add a comment" />
+        <Button fontSize="large">POST</Button>
+        <Button
+          id="commentsButton"
           onClick={() => {
             setViewComments(!viewComments);
           }}
         >
           View comments
-        </button>
+        </Button>
       </Card>
-      {viewComments && (
-        <Card sx={{ minHeight: 700, width: 800 }}>
-          <CardContent>
-            <ul className="comments">
-              {comments.map((comment) => {
-                return (
-                  <li key={comment.id} className="comment">
-                    <Typography variant="subtitle1">{comment.body}</Typography>
-                    <Typography variant="body1" id="commentAuthor">
-                      {comment.author}
-                    </Typography>
-                    <Typography variant="body2">
-                      Votes:{comment.votes}
-                    </Typography>
-                  </li>
-                );
-              })}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
+
+      {viewComments && <SingleArticleComments />}
     </div>
   );
 };
