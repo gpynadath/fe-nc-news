@@ -10,8 +10,9 @@ const SingleArticleComments = () => {
   const { article_id } = useParams();
   useEffect(() => {
     getComments(article_id, setComments);
+    patchArticleVotes(article_id);
   }, []);
-  patchArticleVotes(article_id);
+
   return (
     <div>
       <Card sx={{ minHeight: 700, width: 800 }}>

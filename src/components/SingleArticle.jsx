@@ -8,12 +8,13 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Button from "@mui/material/Button";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import SingleArticleComments from "./SingleArticleComments";
+import PostComment from "./PostComment";
 
 const SingleArticle = () => {
   const [articleInfo, setArticleInfo] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [viewComments, setViewComments] = useState(false);
   const [votes, setVotes] = useState(10);
   const [isError, setIsError] = useState(false);
@@ -21,6 +22,7 @@ const SingleArticle = () => {
 
   useEffect(() => {
     getSingleArticle(article_id, setArticleInfo);
+    setIsError(false);
   }, []);
 
   useEffect(() => {
@@ -28,8 +30,10 @@ const SingleArticle = () => {
   }, [articleInfo]);
 
   function modifyVote(vote) {
+    setIsDisabled(true);
     patchArticleVotes(article_id, vote)
       .then((res) => {
+        setIsError(false);
         setVotes((currentVote) => (currentVote += vote));
       })
       .catch((err) => {
@@ -41,6 +45,7 @@ const SingleArticle = () => {
     <div>
       <Card sx={{ minHeight: 700, width: 800 }}>
         <CardMedia
+          component="img"
           sx={{ height: 400, width: 800 }}
           image={articleInfo.article_img_url}
           title="article image"
@@ -65,16 +70,16 @@ const SingleArticle = () => {
             Votes: {votes}
           </Typography>
         </CardContent>
-        <Button onClick={() => modifyVote(1)}>
+        <Button onClick={() => modifyVote(1)} disabled={isDisabled}>
           <ArrowUpwardIcon fontSize="large" />
         </Button>
-        <Button onClick={() => modifyVote(-1)}>
+        <Button onClick={() => modifyVote(-1)} disabled={isDisabled}>
           <ArrowDownwardIcon fontSize="large" />
         </Button>
         {isError && <h4>Unable to add your vote</h4>}
         <br></br>
-        <TextField label="Add a comment" />
-        <Button fontSize="large">POST</Button>
+        <PostComment/>
+        
         <Button
           id="commentsButton"
           onClick={() => {

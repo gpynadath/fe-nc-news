@@ -36,4 +36,22 @@ function patchArticleVotes(article_id, votes) {
     });
 }
 
-export { getArticles, getSingleArticle, getComments, patchArticleVotes };
+function postComment(article_id, comment) {
+  return axios
+    .post(
+      `https://nc-news-1yod.onrender.com/api/articles/${article_id}/comments`,
+      comment
+    )
+    .then(({ data }) => {
+      console.log("api call");
+      return data.comment;
+    });
+}
+
+export {
+  getArticles,
+  getSingleArticle,
+  getComments,
+  patchArticleVotes,
+  postComment,
+};
