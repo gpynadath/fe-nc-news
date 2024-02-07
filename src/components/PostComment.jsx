@@ -1,25 +1,29 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { postComment } from "../api/api";
 import { useParams } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const PostComment = () => {
+  const { user } = useContext(UserContext);
   const [comment, setComment] = useState("");
   const [feedback, setFeedback] = useState("");
   const { article_id } = useParams();
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    postComment(article_id, { username: "grumpy19", body: comment })
+    postComment(article_id, { username: user.username, body: comment })
       .then((data) => {
         setFeedback("Comment Posted Successfully");
       })
       .catch((err) => {
         setFeedback("Unable to post comment");
       });
+    setComment("");
   }
+
+  useEffect(() => {}, [comment]);
 
   function handleInput(event) {
     setComment(event.target.value);
@@ -35,7 +39,9 @@ const PostComment = () => {
           required
         />
         <br></br>
-        <Button fontSize="large">POST</Button>
+        <Button type="submit" fontSize="large">
+          POST
+        </Button>
       </form>
       <p>{feedback}</p>
     </div>
