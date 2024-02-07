@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import SingleArticle from "./components/SingleArticle";
 import UserContext from "./context/UserContext";
+import Topics from "./components/Topics";
+import TopicArticles from "./components/TopicArticles";
 
 function App() {
   const [user, setUser] = useState({
@@ -23,6 +25,8 @@ function App() {
           <Routes>
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:article_id" element={<SingleArticle />} />
+            <Route path="/topics" element={<Topics />} />
+            <Route path="/topics/:topic" element={<TopicArticles />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>
@@ -31,3 +35,4 @@ function App() {
 }
 
 export default App;
+

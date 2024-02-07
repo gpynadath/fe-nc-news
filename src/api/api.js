@@ -53,6 +53,20 @@ function deleteComment(comment_id) {
   );
 }
 
+function getTopics() {
+  return axios.get("https://nc-news-1yod.onrender.com/api/topics");
+}
+
+function getTopicImage() {
+  return axios.get();
+}
+
+function getTopicArticles(topic) {
+  return axios.get(
+    `https://nc-news-1yod.onrender.com/api/articles?topic=${topic}`
+  );
+}
+
 export {
   getArticles,
   getSingleArticle,
@@ -60,4 +74,7 @@ export {
   patchArticleVotes,
   postComment,
   deleteComment,
+  getTopics,
+  getTopicImage,
+  getTopicArticles,
 };
