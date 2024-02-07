@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/singleArticle.css";
 import { getSingleArticle, patchArticleVotes } from "../api/api";
@@ -11,8 +11,10 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import SingleArticleComments from "./SingleArticleComments";
 import PostComment from "./PostComment";
+import UserContext from "../context/UserContext";
 
 const SingleArticle = () => {
+  const { user } = useContext(UserContext);
   const [articleInfo, setArticleInfo] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
   const [viewComments, setViewComments] = useState(false);
@@ -78,8 +80,8 @@ const SingleArticle = () => {
         </Button>
         {isError && <h4>Unable to add your vote</h4>}
         <br></br>
-        <PostComment/>
-        
+        <PostComment />
+
         <Button
           id="commentsButton"
           onClick={() => {

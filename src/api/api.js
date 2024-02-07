@@ -43,9 +43,14 @@ function postComment(article_id, comment) {
       comment
     )
     .then(({ data }) => {
-      console.log("api call");
       return data.comment;
     });
+}
+
+function deleteComment(comment_id) {
+  return axios.delete(
+    `https://nc-news-1yod.onrender.com/api/comments/${comment_id}`
+  );
 }
 
 export {
@@ -54,4 +59,5 @@ export {
   getComments,
   patchArticleVotes,
   postComment,
+  deleteComment,
 };

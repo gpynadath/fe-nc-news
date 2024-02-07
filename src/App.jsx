@@ -6,16 +6,25 @@ import Articles from "./components/Articles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import SingleArticle from "./components/SingleArticle";
+import UserContext from "./context/UserContext";
 
 function App() {
+  const [user, setUser] = useState({
+    username: "grumpy19",
+    name: "Paul Grump",
+    avatar_url:
+      "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013",
+  });
   return (
     <>
       <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/articles/:article_id" element={<SingleArticle />} />
-        </Routes>
+        <UserContext.Provider value={{ user, setUser }}>
+          <Header />
+          <Routes>
+            <Route path="/articles" element={<Articles />} />
+            <Route path="/articles/:article_id" element={<SingleArticle />} />
+          </Routes>
+        </UserContext.Provider>
       </BrowserRouter>
     </>
   );
