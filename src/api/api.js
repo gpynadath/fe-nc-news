@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const getArticles = async (setArticles) => {
+const getArticles = async (setArticles, sort, order) => {
+  const queryString = "https://nc-news-1yod.onrender.com/api/articles";
+  const params = { sort_by: sort, order: order };
   return await axios
-    .get("https://nc-news-1yod.onrender.com/api/articles")
+    .get(queryString,{params})
     .then(({ data }) => {
       setArticles(data.article);
     });
