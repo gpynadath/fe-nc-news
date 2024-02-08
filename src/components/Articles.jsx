@@ -1,25 +1,83 @@
 import "../styles/articles.css";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useSearchParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { getArticles } from "../api/api";
-
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 const Articles = () => {
   const [articles, setArticles] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortBy = searchParams.get("sort_by");
+  const orderBy = searchParams.get("order_by");
+
+  function setSortBy(value) {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("sort_by", value);
+    setSearchParams(newParams);
+  }
+
+  function setOrderBy(value) {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("order_by", value);
+    setSearchParams(newParams);
+  }
 
   useEffect(() => {
-    getArticles(setArticles);
-  }, []);
-
+    getArticles(setArticles, sortBy, orderBy);
+  }, [articles]);
 
   return (
     <div>
+      <FormControl sx={{ minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-label" sx={{ color: "White" }}>
+          Sort By
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="Sort By"
+        >
+          <MenuItem
+            onClick={() => setSortBy("created_at")}
+            value={"created_at"}
+          >
+            Date
+          </MenuItem>
+          <MenuItem
+            onClick={() => setSortBy("comment_count")}
+            value={"comment_count"}
+          >
+            Comment Count
+          </MenuItem>
+          <MenuItem onClick={() => setSortBy("votes")} value={"votes"}>
+            Votes
+          </MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl sx={{ minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-label2" sx={{ color: "White" }}>
+          Order By
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label2"
+          id="demo-simple-select2"
+          label="Order By"
+        >
+          <MenuItem onClick={() => setOrderBy("asc")} value={"asc"}>
+            Ascending
+          </MenuItem>
+          <MenuItem onClick={() => setOrderBy("desc")} value={"desc"}>
+            Descending
+          </MenuItem>
+        </Select>
+      </FormControl>
       <ul className="article">
         {articles.map((article) => {
           return (
