@@ -6,10 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { getArticles } from "../api/api";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Sorting from "./Sorting";
+
 const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,67 +15,15 @@ const Articles = () => {
   const sortBy = searchParams.get("sort_by");
   const orderBy = searchParams.get("order_by");
 
-  function setSortBy(value) {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("sort_by", value);
-    setSearchParams(newParams);
-  }
-
-  function setOrderBy(value) {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("order_by", value);
-    setSearchParams(newParams);
-  }
-
   useEffect(() => {
-    getArticles(setArticles, sortBy, orderBy);
+    getArticles(sortBy, orderBy).then(({ data }) => {
+      setArticles(data.article);
+    });
   }, [articles]);
 
   return (
     <div>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label" sx={{ color: "White" }}>
-          Sort By
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Sort By"
-        >
-          <MenuItem
-            onClick={() => setSortBy("created_at")}
-            value={"created_at"}
-          >
-            Date
-          </MenuItem>
-          <MenuItem
-            onClick={() => setSortBy("comment_count")}
-            value={"comment_count"}
-          >
-            Comment Count
-          </MenuItem>
-          <MenuItem onClick={() => setSortBy("votes")} value={"votes"}>
-            Votes
-          </MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label2" sx={{ color: "White" }}>
-          Order By
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-label2"
-          id="demo-simple-select2"
-          label="Order By"
-        >
-          <MenuItem onClick={() => setOrderBy("asc")} value={"asc"}>
-            Ascending
-          </MenuItem>
-          <MenuItem onClick={() => setOrderBy("desc")} value={"desc"}>
-            Descending
-          </MenuItem>
-        </Select>
-      </FormControl>
+      <Sorting searchParams={searchParams} setSearchParams={setSearchParams} />
       <ul className="article">
         {articles.map((article) => {
           return (

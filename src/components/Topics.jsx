@@ -6,7 +6,7 @@ const Topics = () => {
   const [topics, setTopics] = useState([]);
   getTopics().then(({ data }) => {
     setTopics(data.data);
-  });
+  })
 
   return (
     <div>

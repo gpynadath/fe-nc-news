@@ -9,6 +9,8 @@ import SingleArticle from "./components/SingleArticle";
 import UserContext from "./context/UserContext";
 import Topics from "./components/Topics";
 import TopicArticles from "./components/TopicArticles";
+import PageNotFound from "./components/PageNotFound";
+import Error from "./components/Error";
 
 function App() {
   const [user, setUser] = useState({
@@ -24,9 +26,14 @@ function App() {
           <Header />
           <Routes>
             <Route path="/articles" element={<Articles />} />
-            <Route path="/articles/:article_id" element={<SingleArticle />} />
+            <Route
+              path="/articles/:article_id"
+              element={<SingleArticle />}
+              errorElement={<Error />}
+            />
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:topic" element={<TopicArticles />} />
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </UserContext.Provider>
       </BrowserRouter>
@@ -35,4 +42,3 @@ function App() {
 }
 
 export default App;
-

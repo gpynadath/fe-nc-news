@@ -19,12 +19,13 @@ const SingleArticle = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [viewComments, setViewComments] = useState(false);
   const [votes, setVotes] = useState(10);
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState("");
   const { article_id } = useParams();
 
   useEffect(() => {
-    getSingleArticle(article_id, setArticleInfo);
-    setIsError(false);
+    getSingleArticle(article_id, setArticleInfo).catch(() => {
+      setIsError("No article found");
+    });
   }, []);
 
   useEffect(() => {
@@ -35,7 +36,6 @@ const SingleArticle = () => {
     setIsDisabled(true);
     patchArticleVotes(article_id, vote)
       .then((res) => {
-        setIsError(false);
         setVotes((currentVote) => (currentVote += vote));
       })
       .catch((err) => {
@@ -45,56 +45,63 @@ const SingleArticle = () => {
 
   return (
     <div>
-      <Card sx={{ minHeight: 700, width: 800 }}>
-        <CardMedia
-          component="img"
-          sx={{ height: 400, width: 800 }}
-          image={articleInfo.article_img_url}
-          title="article image"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="div">
-            {articleInfo.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {articleInfo.body}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Author: {articleInfo.author}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Topic: {articleInfo.topic}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Comment Count: {articleInfo.comment_count}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Votes: {votes}
-          </Typography>
-        </CardContent>
-        <Button onClick={() => modifyVote(1)} disabled={isDisabled}>
-          <ArrowUpwardIcon fontSize="large" />
-        </Button>
-        <Button onClick={() => modifyVote(-1)} disabled={isDisabled}>
-          <ArrowDownwardIcon fontSize="large" />
-        </Button>
-        {isError && <h4>Unable to add your vote</h4>}
-        <br></br>
-        <PostComment />
+      {isError ? (
+        isError
+      ) : (
+        <Card sx={{ minHeight: 700, width: 800 }}>
+          <CardMedia
+            component="img"
+            sx={{ height: 400, width: 800 }}
+            image={articleInfo.article_img_url}
+            title="article image"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h4" component="div">
+              {articleInfo.title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {articleInfo.body}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Author: {articleInfo.author}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Topic: {articleInfo.topic}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Comment Count: {articleInfo.comment_count}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Votes: {votes}
+            </Typography>
+          </CardContent>
+          <Button onClick={() => modifyVote(1)} disabled={isDisabled}>
+            <ArrowUpwardIcon fontSize="large" />
+          </Button>
+          <Button onClick={() => modifyVote(-1)} disabled={isDisabled}>
+            <ArrowDownwardIcon fontSize="large" />
+          </Button>
+          {isError && <h4>Unable to add your vote</h4>}
+          <br></br>
+          <PostComment />
 
-        <Button
-          id="commentsButton"
-          onClick={() => {
-            setViewComments(!viewComments);
-          }}
-        >
-          View comments
-        </Button>
-      </Card>
-
-      {viewComments && <SingleArticleComments />}
+          <Button
+            id="commentsButton"
+            onClick={() => {
+              setViewComments(!viewComments);
+            }}
+          >
+            View comments
+          </Button>
+          <>{viewComments && <SingleArticleComments />}</>
+        </Card>
+      )}
     </div>
   );
 };
 
 export default SingleArticle;
+
+{
+  /* } */
+}
