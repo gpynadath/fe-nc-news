@@ -1,13 +1,11 @@
 import axios from "axios";
 
-const getArticles = async (setArticles, sort, order) => {
+const getArticles = (sort, order, topic) => {
   const queryString = "https://nc-news-1yod.onrender.com/api/articles";
-  const params = { sort_by: sort, order: order };
-  return await axios
-    .get(queryString,{params})
-    .then(({ data }) => {
-      setArticles(data.article);
-    });
+  const params = { sort_by: sort, order: order, topic: topic };
+  return axios.get(queryString, { params }).catch((err) => {
+    console.log(err, "hello");
+  });
 };
 
 const getSingleArticle = (article_id, setArticleInfo) => {
@@ -15,6 +13,9 @@ const getSingleArticle = (article_id, setArticleInfo) => {
     .get(`https://nc-news-1yod.onrender.com/api/articles/${article_id}`)
     .then(({ data }) => {
       setArticleInfo(data.data);
+    })
+    .catch((err) => {
+      throw Error("Nooooo")
     });
 };
 
@@ -63,10 +64,11 @@ function getTopicImage() {
   return axios.get();
 }
 
-function getTopicArticles(topic) {
-  return axios.get(
-    `https://nc-news-1yod.onrender.com/api/articles?topic=${topic}`
-  );
+function getTopicArticles(topic, sort, order) {
+  const queryString = `https://nc-news-1yod.onrender.com/api/articles?topic=${topic}`;
+  const params = { sort_by: sort, order: order };
+
+  return axios.get(queryString, { params });
 }
 
 export {
