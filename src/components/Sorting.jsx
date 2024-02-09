@@ -18,8 +18,11 @@ const Sorting = ({ searchParams, setSearchParams }) => {
   }
   return (
     <div>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label" sx={{ color: "White" }}>
+      <FormControl
+        sx={{ backgroundColor: "lightGrey", minWidth: 120, margin: 1 }}
+        size="small"
+      >
+        <InputLabel id="demo-simple-select-label" sx={{ color: "black" }}>
           Sort By
         </InputLabel>
         <Select
@@ -45,8 +48,11 @@ const Sorting = ({ searchParams, setSearchParams }) => {
           </MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-label2" sx={{ color: "White" }}>
+      <FormControl
+        sx={{ backgroundColor: "lightGrey", minWidth: 120, margin: 1 }}
+        size="small"
+      >
+        <InputLabel id="demo-simple-select-label2" sx={{ color: "black" }}>
           Order By
         </InputLabel>
         <Select
