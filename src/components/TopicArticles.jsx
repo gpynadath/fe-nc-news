@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getArticles } from "../api/api";
+import "../styles/articles.css";
 
 import Card from "@mui/material/Card";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -44,19 +45,19 @@ const TopicArticles = () => {
               setSearchParams={setSearchParams}
             />{" "}
           </>
-          <ul>
+          <ul className="article">
             {topicArticles.map((article) => {
               return (
                 <li key={article.article_id}>
-                  <Card sx={{ minHeight: 700, width: 800 }}>
+                  <Card sx={{ height: 500, maxWidth: 400 }}>
                     <CardMedia
                       component="img"
-                      sx={{ height: 400, width: 800 }}
+                      sx={{ height: 140 }}
                       image={article.article_img_url}
                       title="article image"
                     />
                     <CardContent>
-                      <Typography gutterBottom variant="h4" component="div">
+                      <Typography gutterBottom variant="h5" component="div">
                         {article.title}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
@@ -75,7 +76,7 @@ const TopicArticles = () => {
                         Votes: {article.votes}
                       </Typography>
                       <Link to={`/articles/${article.article_id}`}>
-                        <button>Learn More</button>
+                        <Button>Learn More</Button>
                       </Link>
                     </CardContent>
                   </Card>

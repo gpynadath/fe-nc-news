@@ -1,0 +1,20 @@
+#landingPageImage {
+  width: 100vw;
+  height: 50vh;
+}
+
+.homeText {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.column {
+  text-align: justify;
+  padding: 5px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

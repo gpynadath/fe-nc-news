@@ -1,6 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Articles from "./components/Articles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -10,7 +8,8 @@ import UserContext from "./context/UserContext";
 import Topics from "./components/Topics";
 import TopicArticles from "./components/TopicArticles";
 import PageNotFound from "./components/PageNotFound";
-import Error from "./components/Error";
+import Users from "./components/Users";
+import HomePage from "./components/HomePage";
 
 function App() {
   const [user, setUser] = useState({
@@ -25,14 +24,12 @@ function App() {
         <UserContext.Provider value={{ user, setUser }}>
           <Header />
           <Routes>
+            <Route path="/" element={<HomePage />} />
             <Route path="/articles" element={<Articles />} />
-            <Route
-              path="/articles/:article_id"
-              element={<SingleArticle />}
-              errorElement={<Error />}
-            />
+            <Route path="/articles/:article_id" element={<SingleArticle />} />
             <Route path="/topics" element={<Topics />} />
             <Route path="/topics/:topic" element={<TopicArticles />} />
+            <Route path="/users" element={<Users />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </UserContext.Provider>

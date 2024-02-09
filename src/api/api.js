@@ -15,7 +15,7 @@ const getSingleArticle = (article_id, setArticleInfo) => {
       setArticleInfo(data.data);
     })
     .catch((err) => {
-      throw Error("Nooooo")
+      throw Error("Nooooo");
     });
 };
 
@@ -71,6 +71,10 @@ function getTopicArticles(topic, sort, order) {
   return axios.get(queryString, { params });
 }
 
+function getUsers() {
+  return axios.get("https://nc-news-1yod.onrender.com/api/users");
+}
+
 export {
   getArticles,
   getSingleArticle,
@@ -81,4 +85,5 @@ export {
   getTopics,
   getTopicImage,
   getTopicArticles,
+  getUsers,
 };

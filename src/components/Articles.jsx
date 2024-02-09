@@ -7,6 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { getArticles } from "../api/api";
 import Sorting from "./Sorting";
+import { Button } from "@mui/material";
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -32,7 +33,7 @@ const Articles = () => {
                 <CardMedia
                   sx={{ height: 140 }}
                   image={article.article_img_url}
-                  title="green iguana"
+                  title="article image"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
@@ -48,7 +49,7 @@ const Articles = () => {
                     Comment Count: {article.comment_count}
                   </Typography>
                   <Link to={`/articles/${article.article_id}`}>
-                    <button>Learn More</button>
+                    <Button>Learn More</Button>
                   </Link>
                 </CardContent>
               </Card>
